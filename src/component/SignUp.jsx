@@ -5,12 +5,13 @@ import "./signup.css";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { mycontext } from "./context";
 const style = {
   width: 330,
   border: "1px solid #1D1D1D ",
   borderRadius: 3,
   boxShadow: 24,
-  p: 5,
+  p: 3,
   color: "white",
   display: "flex",
   flexDirection: "column",
@@ -30,7 +31,6 @@ export default function SignUp() {
   async function handlesubmit(e) {
     e.preventDefault();
     let { data } = await axios.post("http://16.170.173.197/users/signup", user);
-    console.log(data.token);
     if (data.token) {
       nav("/login");
     }
@@ -137,7 +137,7 @@ export default function SignUp() {
       </Box>
       <Box
         sx={{
-          width: "75%",
+          width: "100%",
           bgcolor: "#1D1D1D",
           borderRadius: 3,
           height: "80px",

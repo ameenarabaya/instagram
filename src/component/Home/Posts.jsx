@@ -1,26 +1,39 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import BasicModal from "../CreatePost";
+import axios from "axios";
 
 export default function Posts() {
-  const [posts, setPosts] = useState(JSON.parse(localStorage.getItem("posts")));
+  const [posts, setPost] = useState([]);
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    if (localStorage.getItem("posts")) {
-      setPosts(JSON.parse(localStorage.getItem("posts")));
-    }
-  }, [posts]);
+    axios
+      .get("http://16.170.173.197/posts", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setPost(response.data.posts);
+      })
+      .catch((error) => {
+        console.log("Error Fedching memories", error);
+      });
+  }, []);
   return (
     <>
-      <Post
-        title={"ameena"}
-        body={"Good Morning"}
-        url={
-          "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80"
-        }
-      />
+      <BasicModal setPost={setPost} />
       {posts ? (
         posts.map((e, index) => {
-          return <Post key={index} post={e} />;
+          return (
+            <Post
+              key={e.id}
+              title={e.user.userName}
+              body={e.description}
+              url={e.image}
+            />
+          );
         })
       ) : (
         <></>

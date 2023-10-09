@@ -1,18 +1,50 @@
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Avatar,
   Box,
   Button,
   Container,
+  FormControl,
+  IconButton,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import images from "../../assets/assets/Avatars/nurse.png";
 import TabProfile from "./TabProfile";
 import ProfilePosts from "./ProfilePosts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import img from "../../assets/assets/profile.jpg";
+import { useNavigate } from "react-router-dom";
+import { mycontext } from "../context";
 export default function Profile() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [expanded, setExpanded] = React.useState(false);
+  const ITEM_HEIGHT = 48;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  let nav = useNavigate();
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  const signOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("id");
+    nav("/login");
+  };
   return (
     <Container sx={{ bgcolor: "black", color: "white", width: "950px" }}>
       <Box sx={{ borderBottom: "1px solid #ffffff38" }}>
@@ -32,7 +64,7 @@ export default function Profile() {
           />
           <Stack spacing={2} direction={"row"} sx={{ alignItems: "center" }}>
             <Typography sx={{ fontWeight: "bold" }} variant="h6" component="h2">
-              Ameena
+              {user.userName}
             </Typography>
             <Button
               variant="contained"
@@ -60,7 +92,35 @@ export default function Profile() {
             >
               view actions
             </Button>
-            <SettingsIcon />
+            {/* <SettingsIcon /> */}
+            <IconButton
+              sx={{ color: "white" }}
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? "long-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <SettingsIcon />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                "aria-labelledby": "long-button",
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: "20ch",
+                },
+              }}
+            >
+              <MenuItem onClick={signOut}>Logout</MenuItem>
+            </Menu>
           </Stack>
         </Stack>
         <Stack

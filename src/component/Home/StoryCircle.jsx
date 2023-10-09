@@ -1,6 +1,5 @@
 import { Avatar, Box } from "@mui/material";
 import React from "react";
-import image from "../../assets/assets/images.jpg";
 export default function StoryCircle({ name, images }) {
   return (
     <Box

@@ -43,7 +43,7 @@ export default function Post({ title, body, url }) {
         component="img"
         height="500px"
         width="100%"
-        image={`${url}`}
+        image={url}
         alt="Paella dish"
       />
       <CardActions sx={{ color: "white", marginBottom: -2 }}>

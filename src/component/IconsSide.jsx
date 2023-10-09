@@ -24,7 +24,7 @@ import img from "../assets/assets/profile.jpg";
 import BasicModal from "./CreatePost";
 export default function IconsSide() {
   let [open, setOpen] = useState(false);
-
+  const user = JSON.parse(localStorage.getItem("user"));
   const handleClick = () => {
     setOpen(true);
   };
@@ -128,7 +128,7 @@ export default function IconsSide() {
               textDecoration: "none",
               color: "white",
             }}
-            primary="Ameena"
+            primary={`${user.userName}`}
           />
         </ListItemButton>
       </Link>

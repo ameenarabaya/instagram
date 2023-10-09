@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -22,40 +23,47 @@ const style = {
   bgcolor: "#1D1D1D",
 };
 
-export default function BasicModal({ Open, closing }) {
-  let [title, setTitle] = React.useState("");
-  let [body, setBody] = React.useState("");
-  let [Url, setUrl] = React.useState("");
-  let [posts, setPost] = React.useState([
-    {
-      title: "Ameena",
-      body: "Good Morning",
-      url: "https://images.pexels.com/photos/17038848/pexels-photo-17038848.jpeg?cs=srgb&dl=pexels-yunus-tu%C4%9F-17038848.jpg&fm=jpg",
-    },
-  ]);
-  function handleTitle(e) {
-    setTitle(e.target.value);
-  }
+export default function BasicModal({ Open, closing, setPost }) {
+  let [description, setDescription] = React.useState("");
+  let [image, setimage] = React.useState(null);
+  let [imagefile, setimageFile] = React.useState(null);
+  const token = localStorage.getItem("token");
+
   function handleBody(e) {
-    setBody(e.target.value);
+    setDescription(e.target.value);
   }
-  function handleUrl(e) {
-    setUrl(e.target.value);
+  function handleUrl(event) {
+    const file = event.target.files[0];
+    setimage(file);
+    console.log(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setimageFile(reader.result);
+    };
   }
-  function handlesubmit() {
-    let postObject = { title: title, body: body, url: Url };
-    setPost([...posts, postObject]);
-    localStorage.setItem("posts", JSON.stringify([...posts, postObject]));
+  const formData = new FormData();
+  formData.append("description", description);
+  formData.append("image", image);
+  async function handlesubmit(e) {
+    e.preventDefault();
+    await axios
+      .post("http://16.170.173.197/posts", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-Data",
+        },
+      })
+      .then((response) => {
+        setPost((prevposts) => [...prevposts, response.data]);
+      })
+      .catch((error) => console.log(error));
   }
-  React.useEffect(() => {
-    if (localStorage.getItem("posts")) {
-      setPost(JSON.parse(localStorage.getItem("posts")));
-    }
-  }, []);
   return (
     <div>
       <Modal
         open={Open}
+        onClose={closing}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -68,20 +76,8 @@ export default function BasicModal({ Open, closing }) {
           >
             create new post
           </Typography>
-          <label style={{ marginBottom: "5px" }}>title</label>
-          <input
-            style={{
-              width: "100%",
-              height: "25px",
-              borderRadius: "10px",
-              marginBottom: "15px",
-              backgroundColor: "#4D4D4D",
-              border: "1px solid #FFFFFF",
-              color: "white",
-            }}
-            onChange={(e) => handleTitle(e)}
-          />
-          <label style={{ marginBottom: "5px" }}>Body</label>
+
+          <label style={{ marginBottom: "5px" }}>Description</label>
           <textarea
             style={{
               width: "100%",
@@ -94,23 +90,29 @@ export default function BasicModal({ Open, closing }) {
             }}
             onChange={(e) => handleBody(e)}
           ></textarea>
-          <label style={{ marginBottom: "5px" }}>image Url</label>
+          {image ? (
+            <div style={{ width: "160px", height: "160px", margin: "0 auto" }}>
+              <img style={{ width: "100%", height: "100%" }} src={imagefile} />
+            </div>
+          ) : (
+            <></>
+          )}
           <input
+            className="upload"
+            type="file"
+            lang="asa"
             style={{
-              marginBottom: "20px",
-              width: "100%",
-              borderRadius: "10px",
-              height: "25px",
-              backgroundColor: "#4D4D4D",
-              border: "1px solid #FFFFFF",
-              color: "white",
+              margin: "25px auto",
+              width: "50%",
+              borderRadius: "20px",
+              backgroundColor: "#1565c0",
             }}
-            onChange={(e) => handleUrl(e)}
+            onChange={(event) => handleUrl(event)}
           />
           <Button
             type="submit"
-            onClick={() => {
-              handlesubmit();
+            onClick={(e) => {
+              handlesubmit(e);
               closing();
             }}
             variant="contained"

@@ -5,6 +5,7 @@ import "./signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import axios from "axios";
+import { mycontext } from "./context";
 const style = {
   width: 330,
   border: "1px solid #1D1D1D ",
@@ -28,11 +29,17 @@ export default function Login() {
   let nav = useNavigate();
   async function handlesubmit(e) {
     e.preventDefault();
-    let { data } = await axios.post("http://16.170.173.197/users/login", user);
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      nav("/user");
-    }
+    await axios
+      .post("http://16.170.173.197/users/login", user)
+      .then((response) => {
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("id", response.data.user.id);
+          nav("/user");
+        }
+      })
+      .catch((Error) => console.log(Error));
   }
   return (
     <Container
@@ -112,7 +119,7 @@ export default function Login() {
       </Box>
       <Box
         sx={{
-          width: "35%",
+          width: "100%",
           bgcolor: "#1D1D1D",
           borderRadius: 3,
           height: "80px",
@@ -126,9 +133,9 @@ export default function Login() {
         <div style={{ color: "#959595", marginRight: "2px" }}>
           Don't have an account ?
         </div>
-        <a href="" style={{ textDecoration: "none", color: "#0095f6" }}>
+        <Link to={"/"} style={{ textDecoration: "none", color: "#0095f6" }}>
           sign up
-        </a>
+        </Link>
       </Box>
     </Container>
   );

@@ -21,7 +21,7 @@ top: 58%;
     left:120%;
     top: 58%;
     }
-    input{
+    input:not('.upload'){
         color:#3a3939;
         font-weight:600;
         outline: none;
