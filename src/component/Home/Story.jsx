@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import image1 from "../../assets/assets/StoriesAvatars/saleswoman.png";
 import image2 from "../../assets/assets/StoriesAvatars/driver.png";
 import image3 from "../../assets/assets/StoriesAvatars/farmer-avatar.png";
@@ -10,7 +10,26 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { Box } from "@mui/material";
 import StoryCircle from "./StoryCircle";
+import axios from "axios";
+
 export default function Story() {
+  let token = localStorage.getItem("token");
+  let [users, setUsers] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://16.170.173.197/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data.users);
+        console.log(users);
+      })
+      .catch((error) => {
+        console.log("Error Fedching memories", error);
+      });
+  }, []);
   return (
     <>
       <Stack
@@ -25,12 +44,10 @@ export default function Story() {
         }}
       >
         <StoryCircle name={"ameena"} images={image1} />
-        <StoryCircle name={"Moath"} images={image2} />
-        <StoryCircle name={"waleed"} images={image3} />
-        <StoryCircle name={"kareem"} images={image4} />
-        <StoryCircle name={"sara"} images={image5} />
-        <StoryCircle name={"Adam"} images={image6} />
-        <StoryCircle name={"Tyma'a"} images={image7} />
+        <StoryCircle name={"sara"} images={image2} />
+        <StoryCircle name={"tymaa"} images={image3} />
+        <StoryCircle name={"waleed"} images={image4} />
+        <StoryCircle name={"moath"} images={image5} />
       </Stack>
     </>
   );

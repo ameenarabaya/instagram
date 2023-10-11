@@ -5,7 +5,6 @@ import "./signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import axios from "axios";
-import { mycontext } from "./context";
 const style = {
   width: 330,
   border: "1px solid #1D1D1D ",
@@ -26,6 +25,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+  let [error, setError] = useState("");
   let nav = useNavigate();
   async function handlesubmit(e) {
     e.preventDefault();
@@ -39,7 +39,7 @@ export default function Login() {
           nav("/user");
         }
       })
-      .catch((Error) => console.log(Error));
+      .catch((error) => setError(error.response.data));
   }
   return (
     <Container
@@ -62,6 +62,7 @@ export default function Login() {
               marginBottom: "15px",
               marginTop: "17px",
               padding: "3px",
+              border: "2px solid white",
             }}
             placeholder="Mobile Number or Email"
             value={user.email}
@@ -69,16 +70,26 @@ export default function Login() {
           />
           <input
             style={{
-              marginBottom: "20px",
+              marginBottom: "10px",
               width: "100%",
               borderRadius: "5px",
               height: "25px",
               padding: "3px",
+              border: "2px solid white",
             }}
             placeholder="Password"
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
+          {error ? (
+            <div
+              style={{ color: "red", marginBottom: "10px", textAlign: "start" }}
+            >
+              {error}
+            </div>
+          ) : (
+            <></>
+          )}
           <Button
             type="submit"
             variant="contained"
@@ -133,7 +144,10 @@ export default function Login() {
         <div style={{ color: "#959595", marginRight: "2px" }}>
           Don't have an account ?
         </div>
-        <Link to={"/"} style={{ textDecoration: "none", color: "#0095f6" }}>
+        <Link
+          to={"/signup"}
+          style={{ textDecoration: "none", color: "#0095f6" }}
+        >
           sign up
         </Link>
       </Box>

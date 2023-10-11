@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StoryCircle from "./StoryCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
@@ -20,7 +20,27 @@ import SendIcon from "@mui/icons-material/Send";
 import image2 from "../../assets/assets/view.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
-export default function Post({ title, body, url }) {
+import axios from "axios";
+export default function Post({ title, body, url, id }) {
+  let [likesCount, setlikesCount] = useState("");
+  let token = localStorage.getItem("token");
+  // const handleLikes = (id) => {
+  //   console.log(id);
+  //   axios
+  //     .post(`http://16.170.173.197/posts/like/${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //     });
+  // };
+  // useEffect(() => {
+  //   axios.get(`http://16.170.173.197/posts?id=${id}`).then((response) => {
+  //     setlikesCount(response.data.likes.count);
+  //   });
+  // }, [id]);
   return (
     <Card sx={{ maxWidth: "100%", bgcolor: "black", color: "white" }}>
       <CardHeader
@@ -52,6 +72,7 @@ export default function Post({ title, body, url }) {
             sx={{ color: "white", marginRight: 1 }}
             onClick={(e) => {
               e.target.style.color = "red";
+              // handleLikes(id);
             }}
           />
           <FontAwesomeIcon style={{ color: "white" }} icon={faComment} />
@@ -70,7 +91,7 @@ export default function Post({ title, body, url }) {
           variant="body2"
           color="text.secondary"
         >
-          <div>1000 Likes</div>
+          <div>{likesCount}Likes</div>
           <div>{title}</div>
           {body}
         </Typography>

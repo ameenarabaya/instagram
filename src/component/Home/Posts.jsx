@@ -20,7 +20,7 @@ export default function Posts() {
       .catch((error) => {
         console.log("Error Fedching memories", error);
       });
-  }, []);
+  }, [posts]);
   return (
     <>
       <BasicModal setPost={setPost} />
@@ -32,6 +32,7 @@ export default function Posts() {
               title={e.user.userName}
               body={e.description}
               url={e.image}
+              id={e.id}
             />
           );
         })

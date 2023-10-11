@@ -43,7 +43,7 @@ export default function Profile() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("id");
-    nav("/login");
+    nav("/");
   };
   return (
     <Container sx={{ bgcolor: "black", color: "white", width: "950px" }}>

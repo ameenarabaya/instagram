@@ -15,8 +15,8 @@ import PageNotFound from './component/PageNotFound';
 function App() {
   let routes = createBrowserRouter([
     {path:'/',element:<OutLayout/> ,children:[
-      {index:true ,element:<ProtectedAuth><SignUp/></ProtectedAuth>},
-      {path:'/login' , element:<ProtectedAuth><Login/></ProtectedAuth>},
+      {index:true ,element:<ProtectedAuth><Login/></ProtectedAuth>},
+      {path:'/signup' , element:<ProtectedAuth><SignUp/></ProtectedAuth>},
        ]},
       {path:'/user' , element:<Protected><Layout/></Protected>,children:[
       {index:true , element:<Home/>},

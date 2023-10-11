@@ -5,6 +5,6 @@ export default function Protected({ children }) {
   if (localStorage.getItem("token")) {
     return children;
   } else {
-    return <Navigate to={"/login"}></Navigate>;
+    return <Navigate to={"/"}></Navigate>;
   }
 }

@@ -97,17 +97,40 @@ export default function BasicModal({ Open, closing, setPost }) {
           ) : (
             <></>
           )}
+          <label htmlFor="image-upload">
+            <Button
+              variant="contained"
+              component="div"
+              sx={{
+                width: "100%",
+                textAlign: "center",
+                margin: "10px auto",
+                transform: "translateX(90%)",
+                paddingTop: "5px",
+                borderRadius: "20px",
+                fontSize: "14px",
+                color: "white",
+                backgroundColor: "#1565c0",
+                ":hover": {
+                  bgcolor: "white",
+                  color: "black",
+                },
+                "&:active": {
+                  boxShadow: "none",
+                  backgroundColor: "white",
+                  color: "black",
+                },
+              }}
+            >
+              Upload Image
+            </Button>
+          </label>
           <input
-            className="upload"
+            id="image-upload"
             type="file"
-            lang="asa"
-            style={{
-              margin: "25px auto",
-              width: "50%",
-              borderRadius: "20px",
-              backgroundColor: "#1565c0",
-            }}
+            accept="image/*"
             onChange={(event) => handleUrl(event)}
+            style={{ display: "none" }}
           />
           <Button
             type="submit"

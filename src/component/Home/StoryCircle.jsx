@@ -1,5 +1,5 @@
 import { Avatar, Box } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 export default function StoryCircle({ name, images }) {
   return (
     <Box

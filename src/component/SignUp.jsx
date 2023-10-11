@@ -5,7 +5,6 @@ import "./signup.css";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { mycontext } from "./context";
 const style = {
   width: 330,
   border: "1px solid #1D1D1D ",
@@ -78,6 +77,7 @@ export default function SignUp() {
               borderRadius: "5px",
               marginBottom: "15px",
               padding: "3px",
+              border: "2px solid white",
             }}
             placeholder="Username"
             value={user.userName}
@@ -90,6 +90,7 @@ export default function SignUp() {
               borderRadius: "5px",
               height: "25px",
               padding: "3px",
+              border: "2px solid white",
             }}
             placeholder="Email"
             value={user.email}
@@ -102,6 +103,7 @@ export default function SignUp() {
               borderRadius: "5px",
               height: "25px",
               padding: "3px",
+              border: "2px solid white",
             }}
             placeholder="Password"
             value={user.password}
@@ -152,7 +154,7 @@ export default function SignUp() {
         <div style={{ color: "#959595", marginRight: "2px" }}>
           Have an account?
         </div>
-        <Link to="/login" style={{ textDecoration: "none", color: "#0095f6" }}>
+        <Link to="/" style={{ textDecoration: "none", color: "#0095f6" }}>
           Login
         </Link>
       </Box>
