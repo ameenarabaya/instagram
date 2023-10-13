@@ -11,7 +11,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  border: "1px solid #1D1D1D ",
+  border: "1px solid white ",
   borderRadius: 6,
   boxShadow: 24,
   p: 4,
@@ -87,6 +87,7 @@ export default function BasicModal({ Open, closing, setPost }) {
               backgroundColor: "#4D4D4D",
               border: "1px solid #FFFFFF",
               color: "white",
+              padding: "5px",
             }}
             onChange={(e) => handleBody(e)}
           ></textarea>

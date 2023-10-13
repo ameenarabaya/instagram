@@ -7,7 +7,6 @@ export default function FollowingCard() {
       direction="row"
       spacing={2}
       sx={{
-        color: "white",
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 3,

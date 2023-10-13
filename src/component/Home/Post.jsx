@@ -24,36 +24,41 @@ import axios from "axios";
 export default function Post({ title, body, url, id }) {
   let [likesCount, setlikesCount] = useState("");
   let token = localStorage.getItem("token");
-  // const handleLikes = (id) => {
-  //   console.log(id);
+  const handleLikes = (id) => {
+    console.log(id);
+    axios
+      .post(`http://16.170.173.197/posts/like/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => console.log(error));
+  };
+  // useEffect(() => {
   //   axios
-  //     .post(`http://16.170.173.197/posts/like/${id}`, {
+  //     .get(`http://16.170.173.197/posts/${id}`, {
   //       headers: {
   //         Authorization: `Bearer ${token}`,
   //       },
   //     })
   //     .then((response) => {
-  //       console.log(response);
+  //       setlikesCount(response.data);
+  //       console.log(response.likes.count);
   //     });
-  // };
-  // useEffect(() => {
-  //   axios.get(`http://16.170.173.197/posts?id=${id}`).then((response) => {
-  //     setlikesCount(response.data.likes.count);
-  //   });
-  // }, [id]);
+  // }, []);
   return (
-    <Card sx={{ maxWidth: "100%", bgcolor: "black", color: "white" }}>
+    <Card sx={{ bgcolor: "black", maxWidth: "100%" }}>
       <CardHeader
         sx={{ color: "white" }}
         avatar={
           <Avatar
-            sx={{ border: "1px solid white", width: 50, height: 50 }}
+            sx={{ width: 50, height: 50 }}
             alt="Remy Sharp"
             src={image1}
           />
         }
         action={
-          <IconButton sx={{ color: "white" }} aria-label="settings">
+          <IconButton aria-label="settings">
             <MoreHorizIcon />
           </IconButton>
         }
@@ -66,32 +71,31 @@ export default function Post({ title, body, url, id }) {
         image={url}
         alt="Paella dish"
       />
-      <CardActions sx={{ color: "white", marginBottom: -2 }}>
-        <IconButton aria-label="settings">
+      <CardActions sx={{ marginBottom: -2 }}>
+        <IconButton sx={{ color: "white" }} aria-label="settings">
           <FavoriteIcon
-            sx={{ color: "white", marginRight: 1 }}
+            sx={{ marginRight: 1 }}
             onClick={(e) => {
               e.target.style.color = "red";
-              // handleLikes(id);
+              handleLikes(id);
             }}
           />
-          <FontAwesomeIcon style={{ color: "white" }} icon={faComment} />
+          <FontAwesomeIcon icon={faComment} />
           <SendIcon
             sx={{
-              color: "white",
               marginLeft: 1,
               transform: "rotate(-45deg)",
             }}
           />
         </IconButton>
       </CardActions>
-      <CardContent>
+      <CardContent sx={{ color: "white" }}>
         <Typography
           sx={{ color: "white" }}
           variant="body2"
           color="text.secondary"
         >
-          <div>{likesCount}Likes</div>
+          <div>25 likes</div>
           <div>{title}</div>
           {body}
         </Typography>

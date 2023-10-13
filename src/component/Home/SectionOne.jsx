@@ -5,7 +5,7 @@ import { Box, Container } from "@mui/material";
 
 export default function SectionOne() {
   return (
-    <Container>
+    <Container >
       <Box sx={{ marginLeft: 6 }}>
         <Box sx={{ width: 574 }}>
           <Story />

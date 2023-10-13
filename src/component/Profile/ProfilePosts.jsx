@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Box, Grid, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import image from "../../assets/assets/view.jpg";
 import axios from "axios";
 import "./profilepost.css";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -30,15 +29,27 @@ export default function ProfilePosts() {
       });
   }, [MyAccount]);
   function handledelete(id) {
-    axios
-      .delete(`http://16.170.173.197/posts/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .catch((error) => {
-        console.log("Error Fedching memories", error);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://16.170.173.197/posts/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .catch((error) => {
+            console.log("Error Fedching memories", error);
+          });
+      }
+    });
   }
   async function handleEdit(id) {
     const { value: Data } = await Swal.fire({
@@ -46,25 +57,18 @@ export default function ProfilePosts() {
       inputLabel: "title",
       inputValue: "",
       inputPlaceholder: "Enter new Title",
-      inputAttributes: {
-        style: {
-          backgroundColor: "black",
-          color: "red",
-        },
-      },
+      inputAttributes: {},
     });
     if (Data) {
-      await axios
-        .put(
-          `http://16.170.173.197/posts/${id}`,
-          { description: Data },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((response) => console.log(response));
+      await axios.put(
+        `http://16.170.173.197/posts/${id}`,
+        { description: Data },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     }
   }
   return (

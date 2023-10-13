@@ -8,6 +8,7 @@ export default function StoryCircle({ name, images }) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        width: "100%",
       }}
     >
       <Avatar

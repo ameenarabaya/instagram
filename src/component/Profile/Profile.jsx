@@ -22,7 +22,6 @@ import ProfilePosts from "./ProfilePosts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import img from "../../assets/assets/profile.jpg";
 import { useNavigate } from "react-router-dom";
-import { mycontext } from "../context";
 export default function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [expanded, setExpanded] = React.useState(false);

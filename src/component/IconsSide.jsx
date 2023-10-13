@@ -10,11 +10,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import instaImage from "../assets/assets/instagram-logo.png";
 import {
   Avatar,
+  Badge,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  useMediaQuery,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import StoryCircle from "./Home/StoryCircle";
@@ -33,6 +35,7 @@ export default function IconsSide() {
   };
   return (
     <List
+      className="List"
       sx={{
         position: "sticky",
         Width: "100%",
@@ -77,7 +80,7 @@ export default function IconsSide() {
           <ListItemIcon>
             {
               <FontAwesomeIcon
-                style={{ color: "white", marginRight: "2px" }}
+                style={{ color: "white", marginRight: "2px", fontSize: "22px" }}
                 icon={faComment}
               />
             }
@@ -115,7 +118,9 @@ export default function IconsSide() {
       </ListItemButton>
       <ListItemButton>
         <ListItemIcon>
-          {<FavoriteBorderIcon style={{ color: "white" }} />}
+          <Badge sx={{ color: "red" }} color="error" variant="dot">
+            <FavoriteBorderIcon style={{ color: "white" }} />
+          </Badge>
         </ListItemIcon>
         <ListItemText sx={{ marginLeft: -2 }} primary="Notifications" />
       </ListItemButton>

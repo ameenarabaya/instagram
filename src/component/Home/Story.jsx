@@ -10,11 +10,19 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { Box } from "@mui/material";
 import StoryCircle from "./StoryCircle";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import Pagination from "swiper";
 import axios from "axios";
+import "./story.css";
+import { Controller } from "swiper/modules";
 
 export default function Story() {
   let token = localStorage.getItem("token");
   let [users, setUsers] = useState([]);
+  const [controlledSwiper, setControlledSwiper] = useState(null);
+  console.log(controlledSwiper);
   useEffect(() => {
     axios
       .get("http://16.170.173.197/users", {
@@ -24,31 +32,68 @@ export default function Story() {
       })
       .then((response) => {
         setUsers(response.data.users);
-        console.log(users);
       })
       .catch((error) => {
         console.log("Error Fedching memories", error);
       });
   }, []);
   return (
-    <>
-      <Stack
-        direction="row"
-        spacing={3}
-        sx={{
-          bgcolor: "black",
-          maxWidth: 450,
-          marginTop: 3,
-          marginLeft: 3,
+    <Stack
+      direction="row"
+      spacing={3}
+      sx={{
+        maxWidth: 550,
+        marginTop: 3,
+        marginLeft: 3,
+        color: "white",
+        marginBottom:-3
+      }}
+    >
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={"2px"}
+        pagination={{
+          clickable: true,
+        }}
+        breakpoints={{
+          "@0.00": {
+            slidesPerView: 1,
+            spaceBetween: "2px",
+          },
+          "@0.75": {
+            slidesPerView: 2,
+            spaceBetween: "2px",
+          },
+          "@1.00": {
+            slidesPerView: 3,
+            spaceBetween: "2px",
+          },
+          "@1.50": {
+            slidesPerView: 6,
+            spaceBetween: 3,
+          },
+        }}
+        // modules={[Pagination]}
+        controller={{ control: controlledSwiper }}
+        className="mySwiper"
+        style={{
           color: "white",
+          maxWidth: "100%",
         }}
       >
-        <StoryCircle name={"ameena"} images={image1} />
-        <StoryCircle name={"sara"} images={image2} />
-        <StoryCircle name={"tymaa"} images={image3} />
-        <StoryCircle name={"waleed"} images={image4} />
-        <StoryCircle name={"moath"} images={image5} />
-      </Stack>
-    </>
+        <SwiperSlide>
+          <StoryCircle name={"ameena"} images={image5} />
+        </SwiperSlide>
+        {users ? (
+          users.map((e) => (
+            <SwiperSlide>
+              <StoryCircle name={e.userName.slice(0, 8)} images={image1} />
+            </SwiperSlide>
+          ))
+        ) : (
+          <></>
+        )}
+      </Swiper>
+    </Stack>
   );
 }
