@@ -22,7 +22,6 @@ export default function Story() {
   let token = localStorage.getItem("token");
   let [users, setUsers] = useState([]);
   const [controlledSwiper, setControlledSwiper] = useState(null);
-  console.log(controlledSwiper);
   useEffect(() => {
     axios
       .get("http://16.170.173.197/users", {
@@ -44,9 +43,8 @@ export default function Story() {
       sx={{
         maxWidth: 550,
         marginTop: 3,
-        marginLeft: 3,
         color: "white",
-        marginBottom:-3
+        marginBottom: -3,
       }}
     >
       <Swiper

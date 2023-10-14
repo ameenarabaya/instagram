@@ -13,7 +13,7 @@ export default function StoryCircle({ name, images }) {
     >
       <Avatar
         className="avatar"
-        sx={{ width: 52, height: 52, border: "2px solid white" }}
+        sx={{ width: 60, height: 60, border: "2px solid white" }}
         alt="Remy Sharp"
         src={images}
       ></Avatar>

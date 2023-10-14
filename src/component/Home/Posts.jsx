@@ -33,6 +33,8 @@ export default function Posts() {
               body={e.description}
               url={e.image}
               id={e.id}
+              likes={e.likes}
+              createdAt={e.createdAt}
             />
           );
         })
