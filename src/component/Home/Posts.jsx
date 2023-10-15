@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Post from "./Post";
 import BasicModal from "../CreatePost";
 import axios from "axios";
-
-export default function Posts() {
+import Post from "./Post";
+export default function Posts({ updateLikes }) {
   const [posts, setPost] = useState([]);
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,16 +24,16 @@ export default function Posts() {
     <>
       <BasicModal setPost={setPost} />
       {posts ? (
-        posts.map((e, index) => {
+        posts.map((post, index) => {
           return (
             <Post
-              key={e.id}
-              title={e.user.userName}
-              body={e.description}
-              url={e.image}
-              id={e.id}
-              likes={e.likes}
-              createdAt={e.createdAt}
+              key={post.id}
+              title={post.user.userName}
+              body={post.description}
+              url={post.image}
+              id={post.id}
+              likes={post.likes}
+              createdAt={post.createdAt}
             />
           );
         })

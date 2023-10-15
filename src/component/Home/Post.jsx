@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from "react";
-import StoryCircle from "./StoryCircle";
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import image1 from "../../assets/assets/Avatars/man.png";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import SendIcon from "@mui/icons-material/Send";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useEffect, useState } from "react";
+import BasicModal from "../CreatePost";
+import axios from "axios";
 import {
   Avatar,
-  Box,
   Card,
   CardActions,
   CardContent,
@@ -12,20 +20,10 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import image1 from "../../assets/assets/Avatars/man.png";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import SendIcon from "@mui/icons-material/Send";
-import image2 from "../../assets/assets/view.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment } from "@fortawesome/free-regular-svg-icons";
-import axios from "axios";
 export default function Post({ title, body, url, id, likes, createdAt }) {
   const start = Date.now();
-  let [clicked, setClicked] = useState(true);
-  let [user, setUser] = useState("");
-  let token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  let [User, setUser] = useState([]);
   let myid = localStorage.getItem("id");
   const handleLikes = (id, e) => {
     axios
@@ -35,19 +33,27 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
         },
       })
       .then((response) => {
-        console.log(response);
+        setUser(response.data.likes.users);
       })
       .catch((error) => console.log(error));
   };
   useEffect(() => {
-    likes.map((e) => {
-      if (e == myid) {
-        document.querySelector(`.Likes-${id}`).style.color = "red";
-      } else {
-        document.querySelector(`.Likes-${id}`).style.color = "white";
-      }
-    });
-  }, [likes]);
+    LikesUser(id);
+  }, []);
+  async function LikesUser(id) {
+    axios
+      .get(`http://16.170.173.197/posts/likes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUser(response.data.likes.users);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   function getHourDifference(createdAt, start) {
     const createdAtob = new Date(createdAt);
     const diffInMilliseconds = start - createdAtob;
@@ -88,8 +94,10 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
       <CardActions sx={{ marginBottom: -2 }}>
         <IconButton sx={{ color: "white" }} aria-label="settings">
           <FavoriteIcon
-            className={`Likes-${id}`}
-            sx={{ marginRight: 1 }}
+            sx={{
+              marginRight: 1,
+              color: likes.includes(myid) ? "red" : "white",
+            }}
             onClick={(e) => {
               handleLikes(id, e);
             }}
@@ -110,7 +118,34 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
           color="text.secondary"
         >
           <div>{likes.length} likes</div>
-          <div>{title}</div>
+          <div>
+            {User.length > 0 ? (
+              <span style={{ marginRight: "3px", fontSize: "12px" }}>
+                liked By
+              </span>
+            ) : (
+              <></>
+            )}
+            {User ? (
+              User.map((userLike) => {
+                return (
+                  <span
+                    style={{
+                      marginRight: "5px",
+                      fontWeight: "bold",
+                      fontSize: "12px",
+                    }}
+                    key={userLike.id}
+                  >
+                    {userLike.userName},
+                  </span>
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </div>
+          <div style={{ fontWeight: "bold" }}>{title}</div>
           {body}
         </Typography>
       </CardContent>
