@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Stack, Tooltip } from "@mui/material";
 import React from "react";
-import image from "../../assets/assets/Avatars/nurse.png";
+import image from "../../../assets/assets/Avatars/nurse.png";
 export default function FollowingCard() {
   return (
     <Stack

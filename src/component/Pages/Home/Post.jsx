@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import image1 from "../../assets/assets/Avatars/man.png";
+import image1 from "../../../assets/assets/Avatars/man.png";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import SendIcon from "@mui/icons-material/Send";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useEffect, useState } from "react";
-import BasicModal from "../CreatePost";
+import BasicModal from "./CreatePost";
 import axios from "axios";
 import {
   Avatar,
@@ -20,11 +20,13 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import { PostContext } from "../../context";
 export default function Post({ title, body, url, id, likes, createdAt }) {
   const start = Date.now();
   const token = localStorage.getItem("token");
   let [User, setUser] = useState([]);
   let myid = localStorage.getItem("id");
+  let { posts, setposts } = useContext(PostContext);
   const handleLikes = (id, e) => {
     axios
       .post(`http://16.170.173.197/posts/like/${id}`, null, {
@@ -32,15 +34,24 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
           Authorization: `Bearer ${token}`,
         },
       })
+      .then(
+        async () =>
+          await axios.get("http://16.170.173.197/posts", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+      )
       .then((response) => {
-        setUser(response.data.likes.users);
+        setposts(response.data.posts);
+        LikesUser();
       })
       .catch((error) => console.log(error));
   };
   useEffect(() => {
-    LikesUser(id);
+    LikesUser();
   }, []);
-  async function LikesUser(id) {
+  async function LikesUser() {
     axios
       .get(`http://16.170.173.197/posts/likes/${id}`, {
         headers: {
@@ -59,11 +70,16 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
     const diffInMilliseconds = start - createdAtob;
     const hours = diffInMilliseconds / 3600000;
     if (hours > 24) {
-      return `${Math.round(diffInMilliseconds / 86400000)}d`;
-    } else if (1 < hours && hours < 24) {
-      return `${Math.round(hours)}h`;
-    } else if (hours < 1) {
-      return `${Math.round(diffInMilliseconds / 60000)}m`;
+      return `${Math.trunc(diffInMilliseconds / 86400000)}d`;
+    } else if (1 <= hours && hours < 24) {
+      return `${Math.trunc(hours)}h`;
+    } else if (
+      1 < Math.trunc(diffInMilliseconds / 60000) &&
+      Math.trunc(diffInMilliseconds / 60000) < 60
+    ) {
+      return `${Math.trunc(diffInMilliseconds / 60000)}m`;
+    } else {
+      return `just Now`;
     }
   }
   return (
@@ -121,7 +137,7 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
           <div>
             {User.length > 0 ? (
               <span style={{ marginRight: "3px", fontSize: "12px" }}>
-                liked By
+                liked by
               </span>
             ) : (
               <></>
@@ -132,7 +148,6 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
                   <span
                     style={{
                       marginRight: "5px",
-                      fontWeight: "bold",
                       fontSize: "12px",
                     }}
                     key={userLike.id}

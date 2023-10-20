@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import BasicModal from "../CreatePost";
+import React, { useContext, useEffect, useState } from "react";
+import BasicModal from "./CreatePost";
 import axios from "axios";
 import Post from "./Post";
-export default function Posts({ updateLikes }) {
-  const [posts, setPost] = useState([]);
+import { PostContext } from "../../context";
+export default function Posts() {
+  let { posts, setposts } = useContext(PostContext);
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
@@ -14,7 +15,7 @@ export default function Posts({ updateLikes }) {
         },
       })
       .then((response) => {
-        setPost(response.data.posts);
+        setposts(response.data.posts);
       })
       .catch((error) => {
         console.log("Error Fedching memories", error);
@@ -22,7 +23,6 @@ export default function Posts({ updateLikes }) {
   }, [posts]);
   return (
     <>
-      <BasicModal setPost={setPost} />
       {posts ? (
         posts.map((post, index) => {
           return (

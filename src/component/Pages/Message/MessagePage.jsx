@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import Chats from "./Chats";
-import image from "../../assets/assets/messengar-logo.png";
+import image from "../../../assets/assets/messengar-logo.png";
 export default function MessagePage() {
   return (
     <Box sx={{ width: "100%" }}>

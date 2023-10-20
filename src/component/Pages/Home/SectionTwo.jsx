@@ -5,14 +5,14 @@ export default function SectionTwo() {
   return (
     <div
       style={{
-        position: "sticky",
-        top: "30px",
+        marginTop: "30px",
         color: "white",
         textAlign: "start",
         display: "flex",
         flexDirection: "column",
         justifyContent: "start",
         alignItems: "start",
+        width: "100%",
       }}
     >
       <FollowingCard />

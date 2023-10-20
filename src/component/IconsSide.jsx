@@ -19,11 +19,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import StoryCircle from "./Home/StoryCircle";
+import StoryCircle from "./Pages/Home/StoryCircle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import img from "../assets/assets/profile.jpg";
-import BasicModal from "./CreatePost";
+import BasicModal from "./Pages/Home/CreatePost";
 export default function IconsSide() {
   let [open, setOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
@@ -44,7 +44,9 @@ export default function IconsSide() {
         color: "white",
         borderRight: "1px solid #ffffff38",
         zIndex: "44",
-        top: "0",
+        top: 0,
+        // display: "flex",
+        // flexDirection: "column",
       }}
       component="nav"
       aria-labelledby="nested-list-subheader"

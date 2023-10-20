@@ -3,7 +3,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import React from "react";
-import image from "../../assets/assets/Avatars/steward.png";
+import image from "../../../assets/assets/Avatars/steward.png";
 import ChatBox from "./ChatBox";
 const Chats = () => {
   return (

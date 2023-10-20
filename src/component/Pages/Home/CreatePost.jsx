@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import { PostContext } from "../../context";
 
 const style = {
   position: "absolute",
@@ -23,11 +24,12 @@ const style = {
   bgcolor: "#1D1D1D",
 };
 
-export default function BasicModal({ Open, closing, setPost }) {
+export default function BasicModal({ Open, closing }) {
   let [description, setDescription] = React.useState("");
   let [image, setimage] = React.useState(null);
   let [imagefile, setimageFile] = React.useState(null);
   const token = localStorage.getItem("token");
+  let { posts, setposts } = React.useContext(PostContext);
 
   function handleBody(e) {
     setDescription(e.target.value);
@@ -55,7 +57,7 @@ export default function BasicModal({ Open, closing, setPost }) {
         },
       })
       .then((response) => {
-        setPost((prevposts) => [...prevposts, response.data]);
+        setposts((prevposts) => [...prevposts, response.data]);
       })
       .catch((error) => console.log(error));
   }

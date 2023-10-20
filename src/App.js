@@ -2,17 +2,22 @@ import logo from './logo.svg';
 import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './component/Layout';
-import Home from './component/Home/Home';
-import Explore from './component/Explore/Explore';
-import MessagePage from './component/Message/MessagePage';
-import Profile from './component/Profile/Profile'
+import Home from './component/Pages/Home/Home';
+import Explore from './component/Pages/Explore/Explore';
+import MessagePage from './component/Pages/Message/MessagePage';
+import Profile from './component/Pages/Profile/Profile'
 import SignUp from './component/SignUp';
 import Login from './component/Login';
 import Protected from './component/Protected';
 import OutLayout from './component/OutLayout';
 import ProtectedAuth from './component/ProtectedAuth'
-import PageNotFound from './component/PageNotFound';
+import PageNotFound from './component/Pages/PageNotFound';
+import { PostContext } from './component/context';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 function App() {
+  let [posts,setposts] = useState([])
+  let token = localStorage.getItem('token')
   let routes = createBrowserRouter([
     {path:'/',element:<OutLayout/> ,children:[
       {index:true ,element:<ProtectedAuth><Login/></ProtectedAuth>},
@@ -28,7 +33,9 @@ function App() {
     {path:"*" , element:<PageNotFound/>}
   ])
   return (
+  <PostContext.Provider value={{posts,setposts}}>
    <RouterProvider router={routes}/>
+   </PostContext.Provider>
   );
 }
 

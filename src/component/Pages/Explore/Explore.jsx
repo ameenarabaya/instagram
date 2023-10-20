@@ -7,20 +7,21 @@ import {
   ImageListItemBar,
 } from "@mui/material";
 import React from "react";
-import image1 from "../../assets/assets/ExplorePics/explorePic1.avif";
-import image2 from "../../assets/assets/ExplorePics/explorePic2.avif";
-import image3 from "../../assets/assets/ExplorePics/explorePic3.avif";
-import image4 from "../../assets/assets/ExplorePics/explorePic4.avif";
-import image5 from "../../assets/assets/ExplorePics/explorePic5.avif";
-import image6 from "../../assets/assets/ExplorePics/explorePic6.avif";
-import image7 from "../../assets/assets/ExplorePics/explorePic7.avif";
-import image8 from "../../assets/assets/ExplorePics/explorePic8.avif";
-import image9 from "../../assets/assets/ExplorePics/explorePic9.avif";
-import image10 from "../../assets/assets/ExplorePics/explorePic10.webp";
-import image11 from "../../assets/assets/ExplorePics/explorePic11.webp";
-import image12 from "../../assets/assets/ExplorePics/explorePic12.webp";
-import image13 from "../../assets/assets/ExplorePics/explorePic13.webp";
-import image14 from "../../assets/assets/ExplorePics/explorePic14.webp";
+import image1 from "../../../assets/assets/ExplorePics/explorePic1.avif";
+import image2 from "../../../assets/assets/ExplorePics/explorePic2.avif";
+import image3 from "../../../assets/assets/ExplorePics/explorePic3.avif";
+import image4 from "../../../assets/assets/ExplorePics/explorePic4.avif";
+import image5 from "../../../assets/assets/ExplorePics/explorePic5.avif";
+import image6 from "../../../assets/assets/ExplorePics/explorePic6.avif";
+import image7 from "../../../assets/assets/ExplorePics/explorePic7.avif";
+import image8 from "../../../assets/assets/ExplorePics/explorePic8.avif";
+import image9 from "../../../assets/assets/ExplorePics/explorePic9.avif";
+import image10 from "../../../assets/assets/ExplorePics/explorePic10.webp";
+import image11 from "../../../assets/assets/ExplorePics/explorePic11.webp";
+import image12 from "../../../assets/assets/ExplorePics/explorePic12.webp";
+import image13 from "../../../assets/assets/ExplorePics/explorePic13.webp";
+import image14 from "../../../assets/assets/ExplorePics/explorePic14.webp";
+// import image15 from '../../../'
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 export default function Explore() {
   let images = [

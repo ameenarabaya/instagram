@@ -1,6 +1,6 @@
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import React from "react";
-import image from "../../assets/assets/Avatars/steward.png";
+import image from "../../../assets/assets/Avatars/steward.png";
 export default function ChatBox() {
   return (
     <Stack

@@ -16,11 +16,11 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext } from "react";
-import images from "../../assets/assets/Avatars/nurse.png";
+import images from "../../../assets/assets/Avatars/nurse.png";
 import TabProfile from "./TabProfile";
 import ProfilePosts from "./ProfilePosts";
 import SettingsIcon from "@mui/icons-material/Settings";
-import img from "../../assets/assets/profile.jpg";
+import img from "../../../assets/assets/profile.jpg";
 import { useNavigate } from "react-router-dom";
 export default function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -91,7 +91,6 @@ export default function Profile() {
             >
               view actions
             </Button>
-            {/* <SettingsIcon /> */}
             <IconButton
               sx={{ color: "white" }}
               aria-label="more"
