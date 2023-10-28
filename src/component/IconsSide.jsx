@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -24,9 +24,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import img from "../assets/assets/profile.jpg";
 import BasicModal from "./Pages/Home/CreatePost";
+import { PostContext } from "./context";
 export default function IconsSide() {
   let [open, setOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
+  let { myUser } = useContext(PostContext);
   const handleClick = () => {
     setOpen(true);
   };
@@ -45,8 +46,6 @@ export default function IconsSide() {
         borderRight: "1px solid #ffffff38",
         zIndex: "44",
         top: 0,
-        // display: "flex",
-        // flexDirection: "column",
       }}
       component="nav"
       aria-labelledby="nested-list-subheader"
@@ -101,10 +100,17 @@ export default function IconsSide() {
           <ListItemText sx={{ marginLeft: -2 }} primary="Explore" />
         </ListItemButton>
       </Link>
-      <ListItemButton>
-        <ListItemIcon>{<SearchIcon style={{ color: "white" }} />}</ListItemIcon>
-        <ListItemText sx={{ marginLeft: -2 }} primary="search" />
-      </ListItemButton>
+      <Link
+        to={"/user/search"}
+        style={{ textDecoration: "none", color: "white" }}
+      >
+        <ListItemButton>
+          <ListItemIcon>
+            {<SearchIcon style={{ color: "white" }} />}
+          </ListItemIcon>
+          <ListItemText sx={{ marginLeft: -2 }} primary="search" />
+        </ListItemButton>
+      </Link>
       <ListItemButton>
         <ListItemIcon onClick={() => handleClick()}>
           {<AddCircleOutlineIcon style={{ color: "white" }} />}
@@ -128,14 +134,17 @@ export default function IconsSide() {
       </ListItemButton>
       <Link to={"/user/profile"} style={{ textDecoration: "none" }}>
         <ListItemButton>
-          <Avatar src={img} sx={{ width: "30px", height: "30px" }}></Avatar>
+          <Avatar
+            src={myUser.avatar}
+            sx={{ width: "30px", height: "30px" }}
+          ></Avatar>
           <ListItemText
             sx={{
               marginLeft: 2,
               textDecoration: "none",
               color: "white",
             }}
-            primary={`${user.userName}`}
+            primary={`${myUser.userName}`}
           />
         </ListItemButton>
       </Link>

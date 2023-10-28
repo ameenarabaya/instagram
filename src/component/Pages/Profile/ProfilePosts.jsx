@@ -11,23 +11,22 @@ export default function ProfilePosts() {
   let [MyAccount, setMyAccount] = useState(null);
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("id");
+ 
   useEffect(() => {
     axios
-      .get("http://16.170.173.197/users", {
+      .get(`http://16.170.173.197/posts/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        let myobject = response.data.users.filter((e) => {
-          return e.id === id;
-        });
-        setMyAccount(myobject);
+        setMyAccount(response.data.posts);
       })
       .catch((error) => {
         console.log("Error Fedching memories", error);
       });
   }, [MyAccount]);
+
   function handledelete(id) {
     Swal.fire({
       title: "Are you sure?",
@@ -75,7 +74,7 @@ export default function ProfilePosts() {
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {MyAccount ? (
-          MyAccount[0].posts.map((post, index) => {
+          MyAccount.map((post, index) => {
             return (
               <Grid key={index} item xs={4}>
                 <div
@@ -84,7 +83,7 @@ export default function ProfilePosts() {
                 >
                   <div className="Layout">
                     <FontAwesomeIcon
-                      style={{ fontSize: "25px", cursor: "pointer" }}
+                      style={{ fontSize: "25px" }}
                       icon={faPenToSquare}
                       onClick={() => handleEdit(post.id)}
                     />

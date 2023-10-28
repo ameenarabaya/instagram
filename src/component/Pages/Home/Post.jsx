@@ -21,14 +21,22 @@ import {
   Typography,
 } from "@mui/material";
 import { PostContext } from "../../context";
-export default function Post({ title, body, url, id, likes, createdAt }) {
+export default function Post({
+  title,
+  body,
+  url,
+  id,
+  likes,
+  createdAt,
+  avatar,
+}) {
   const start = Date.now();
   const token = localStorage.getItem("token");
   let [User, setUser] = useState([]);
   let myid = localStorage.getItem("id");
   let { posts, setposts } = useContext(PostContext);
-  const handleLikes = (id, e) => {
-    axios
+  const handleLikes = async (id, e) => {
+    await axios
       .post(`http://16.170.173.197/posts/like/${id}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -49,10 +57,12 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
       .catch((error) => console.log(error));
   };
   useEffect(() => {
-    LikesUser();
+    if (likes.length) {
+      LikesUser();
+    }
   }, []);
   async function LikesUser() {
-    axios
+    await axios
       .get(`http://16.170.173.197/posts/likes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,17 +79,20 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
     const createdAtob = new Date(createdAt);
     const diffInMilliseconds = start - createdAtob;
     const hours = diffInMilliseconds / 3600000;
-    if (hours > 24) {
-      return `${Math.trunc(diffInMilliseconds / 86400000)}d`;
-    } else if (1 <= hours && hours < 24) {
-      return `${Math.trunc(hours)}h`;
+    if (Math.trunc(diffInMilliseconds / 1000) == 0) {
+      return `just Now`;
     } else if (
-      1 < Math.trunc(diffInMilliseconds / 60000) &&
-      Math.trunc(diffInMilliseconds / 60000) < 60
+      1 <= Math.trunc(diffInMilliseconds / 1000) &&
+      Math.trunc(diffInMilliseconds / 1000) <= 60
+    ) {
+      return `${Math.trunc(diffInMilliseconds / 1000)}s`;
+    } else if (
+      1 <= Math.trunc(diffInMilliseconds / 60000) &&
+      Math.trunc(diffInMilliseconds / 60000) <= 60
     ) {
       return `${Math.trunc(diffInMilliseconds / 60000)}m`;
-    } else {
-      return `just Now`;
+    } else if (hours > 24) {
+      return `${Math.trunc(diffInMilliseconds / 86400000)}d`;
     }
   }
   return (
@@ -95,7 +108,7 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
         }
         action={
           <IconButton aria-label="settings">
-            <MoreHorizIcon />
+            <MoreHorizIcon style={{ color: "white" }} />
           </IconButton>
         }
         title={`${title}.${getHourDifference(createdAt, start)}`}
@@ -136,9 +149,7 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
           <div>{likes.length} likes</div>
           <div>
             {User.length > 0 ? (
-              <span style={{ marginRight: "3px", fontSize: "12px" }}>
-                liked by
-              </span>
+              <span style={{ fontSize: "12px" }}>liked by</span>
             ) : (
               <></>
             )}
@@ -147,8 +158,9 @@ export default function Post({ title, body, url, id, likes, createdAt }) {
                 return (
                   <span
                     style={{
-                      marginRight: "5px",
+                      marginLeft: "5px",
                       fontSize: "12px",
+                      width: "100%",
                     }}
                     key={userLike.id}
                   >

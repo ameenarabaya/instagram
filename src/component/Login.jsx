@@ -1,10 +1,11 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import image from "../assets/assets/instagram-logo.png";
 import "./signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import axios from "axios";
+import { PostContext } from "./context";
 const style = {
   width: 330,
   border: "1px solid #1D1D1D ",
@@ -21,6 +22,7 @@ const style = {
   marginTop: 4,
 };
 export default function Login() {
+  let { myUser, setMyUser } = useContext(PostContext);
   let [user, setUser] = useState({
     email: "",
     password: "",
@@ -34,7 +36,7 @@ export default function Login() {
       .then((response) => {
         if (response.data.token) {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+          setMyUser(response.data.user);
           localStorage.setItem("id", response.data.user.id);
           nav("/user");
         }

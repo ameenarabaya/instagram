@@ -16,6 +16,7 @@ export default function Posts() {
       })
       .then((response) => {
         setposts(response.data.posts);
+        // console.log(posts);
       })
       .catch((error) => {
         console.log("Error Fedching memories", error);
@@ -24,19 +25,23 @@ export default function Posts() {
   return (
     <>
       {posts ? (
-        posts.map((post, index) => {
-          return (
-            <Post
-              key={post.id}
-              title={post.user.userName}
-              body={post.description}
-              url={post.image}
-              id={post.id}
-              likes={post.likes}
-              createdAt={post.createdAt}
-            />
-          );
-        })
+        posts
+          .slice(0)
+          .reverse()
+          .map((post, index) => {
+            return (
+              <Post
+                key={post.id}
+                title={post.user.userName ? post.user.userName : "unKnown"}
+                body={post.description}
+                url={post.image}
+                id={post.id}
+                likes={post.likes}
+                createdAt={post.createdAt}
+                avatar={post.user.avatar}
+              />
+            );
+          })
       ) : (
         <></>
       )}

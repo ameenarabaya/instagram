@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import image1 from "../../../assets/assets/StoriesAvatars/saleswoman.png";
 import image2 from "../../../assets/assets/StoriesAvatars/driver.png";
 import image3 from "../../../assets/assets/StoriesAvatars/farmer-avatar.png";
@@ -17,10 +17,12 @@ import Pagination from "swiper";
 import axios from "axios";
 import "./story.css";
 import { Controller } from "swiper/modules";
+import { PostContext } from "../../context";
 
 export default function Story() {
   let token = localStorage.getItem("token");
   let [users, setUsers] = useState([]);
+  let { myUser } = useContext(PostContext);
   const [controlledSwiper, setControlledSwiper] = useState(null);
   useEffect(() => {
     axios
@@ -71,7 +73,6 @@ export default function Story() {
             spaceBetween: 3,
           },
         }}
-        // modules={[Pagination]}
         controller={{ control: controlledSwiper }}
         className="mySwiper"
         style={{
@@ -80,12 +81,20 @@ export default function Story() {
         }}
       >
         <SwiperSlide>
-          <StoryCircle name={"ameena"} images={image5} />
+          <StoryCircle name={myUser.userName} images={myUser.avatar} />
         </SwiperSlide>
         {users ? (
           users.map((e) => (
             <SwiperSlide>
-              <StoryCircle name={e.userName.slice(0, 8)} images={image1} />
+              <StoryCircle
+                name={e.userName.slice(0, 7)}
+                images={
+                  e.avatar ==
+                  "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png"
+                    ? image5
+                    : e.avatar
+                }
+              />
             </SwiperSlide>
           ))
         ) : (

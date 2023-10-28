@@ -37,7 +37,6 @@ export default function BasicModal({ Open, closing }) {
   function handleUrl(event) {
     const file = event.target.files[0];
     setimage(file);
-    console.log(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {

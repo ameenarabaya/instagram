@@ -15,8 +15,10 @@ import PageNotFound from './component/Pages/PageNotFound';
 import { PostContext } from './component/context';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Search from './component/Pages/search/Search';
 function App() {
-  let [posts,setposts] = useState([])
+  let [posts,setposts] = useState([]);
+  let [myUser,setMyUser] = useState([])
   let token = localStorage.getItem('token')
   let routes = createBrowserRouter([
     {path:'/',element:<OutLayout/> ,children:[
@@ -28,12 +30,13 @@ function App() {
       {path:'/user/explore', element:<Explore/>},
       {path:'/user/messagePage' , element:<MessagePage/>},
       {path:'/user/profile' , element:<Profile/>},
+      {path:'/user/search' ,element:<Search/>}
 
     ]},
     {path:"*" , element:<PageNotFound/>}
   ])
   return (
-  <PostContext.Provider value={{posts,setposts}}>
+  <PostContext.Provider value={{posts,setposts,myUser,setMyUser}}>
    <RouterProvider router={routes}/>
    </PostContext.Provider>
   );

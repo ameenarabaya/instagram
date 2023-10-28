@@ -31,7 +31,7 @@ export default function SignUp() {
     e.preventDefault();
     let { data } = await axios.post("http://16.170.173.197/users/signup", user);
     if (data.token) {
-      nav("/login");
+      nav("/");
     }
   }
   return (
