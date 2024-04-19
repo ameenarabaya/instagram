@@ -48,34 +48,36 @@ export default function ProfileModule({ Open, closing }) {
     };
   }
   const formData = new FormData();
-  formData.append("id", myid);
   formData.append("bio", bio);
   formData.append("userName", userName);
   formData.append("status", status);
   formData.append("avatar", avatar);
-  formData.append("password", password);
   async function handlesubmit(e) {
     e.preventDefault();
     await axios
-      .put("http://16.170.173.197/users", formData, {
+      .patch("https://instagram-cloneapi.onrender.com/users/update", formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          token: token,
         },
       })
       .then(async () => {
         await axios
-          .get("http://16.170.173.197/users", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
+          .get("https://instagram-cloneapi.onrender.com/users")
           .then((response) => {
-            setMyUser(response.data.users.filter((e) => e.id == myid)[0]);
+            setMyUser(response.data.users.filter((e) => e._id == myid)[0]);
           })
           .catch((error) => console.log(error));
       });
   }
-  console.log(myUser);
+  console.log(myUser.userName);
+  React.useEffect(() => {
+    axios
+      .get("https://instagram-cloneapi.onrender.com/users")
+      .then((response) => {
+        setMyUser(response.data.users.filter((e) => e._id == myid)[0]);
+      })
+      .catch((error) => console.log(error));
+  }, [myUser]);
   return (
     <div>
       <Modal
@@ -170,6 +172,9 @@ export default function ProfileModule({ Open, closing }) {
             />
             <span>Public</span>
           </Box>
+          {/* <span style={{ fontSize: "12px", textAlign: "start" }}>
+            *this feild is optional
+          </span>
           <label style={{ marginBottom: "5px" }}>Password</label>
           <input
             style={{
@@ -182,7 +187,7 @@ export default function ProfileModule({ Open, closing }) {
               padding: "5px",
             }}
             onChange={(e) => setPassword(e.target.value)}
-          ></input>
+          ></input> */}
           <Button
             type="submit"
             onClick={(e) => {

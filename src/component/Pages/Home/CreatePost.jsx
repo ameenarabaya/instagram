@@ -49,10 +49,9 @@ export default function BasicModal({ Open, closing }) {
   async function handlesubmit(e) {
     e.preventDefault();
     await axios
-      .post("http://16.170.173.197/posts", formData, {
+      .post("https://instagram-cloneapi.onrender.com/posts", formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-Data",
+          token: token,
         },
       })
       .then((response) => {
@@ -94,7 +93,11 @@ export default function BasicModal({ Open, closing }) {
           ></textarea>
           {image ? (
             <div style={{ width: "160px", height: "160px", margin: "0 auto" }}>
-              <img style={{ width: "100%", height: "100%" }} src={imagefile} />
+              <img
+                style={{ width: "100%", height: "100%" }}
+                src={imagefile}
+                alt="hh"
+              />
             </div>
           ) : (
             <></>

@@ -1,57 +1,107 @@
-import { Container, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import "awesomplete";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Avatar, Container } from "@mui/material";
+import "./search.css";
+import { Link } from "react-router-dom";
+const SearchPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-export default function Search() {
-  let token = localStorage.getItem("token");
-  let [Users, setUsers] = useState([]);
   useEffect(() => {
-    axios
-      .get("http://16.170.173.197/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setUsers(response.data.users);
-      })
-      .catch((error) => {
-        console.log("Error Fedching memories", error);
-      });
-  }, []);
+    if (searchQuery.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    setLoading(true);
+    // Simulate API call with setTimeout
+    const timeoutId = setTimeout(() => {
+      axios
+        .get(
+          `https://instagram-cloneapi.onrender.com/users/searchUser/${searchQuery}`
+        )
+        .then((response) => {
+          setSearchResults(response.data.users);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching search results:", error);
+          setLoading(false);
+        });
+    }, 1000); // Simulated delay of 1 second
+
+    // Cleanup function to cancel the timeout
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <Container
       sx={{
-        color: "white",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        width: "100%",
       }}
-      maxWidth={"lg"}
     >
-      <input
+      <div
         style={{
-          width: "500px",
-          backgroundColor: "black",
-          marginTop: "30px",
-          outline: "none",
-          borderBottom: "1px solid rgb(149 149 149 / 76%)",
-          borderRight: "none",
-          borderTop: "none",
-          borderLeft: "none",
-          height: "30px",
-          color: "white",
-          position: "relative",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-        class="awesomplete"
-        list="mylist"
-      />
-      <datalist style={{ width: "500px" }} id="mylist">
-        {Users.map((user) => {
-          return <option>{user.userName}</option>;
-        })}
-      </datalist>
+      >
+        <input
+          className="inputClass"
+          type="text"
+          placeholder="Search"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+        />
+        {loading ? (
+        <span class="searchLoader"></span>
+        ) : (
+          <div
+            className="results"
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {searchResults.map((result) => (
+              <Link
+                className="userDiv"
+                to={`user/${result._id}`}
+                key={result.id}
+              >
+                <Avatar
+                  className="avatar"
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    border: "2px solid white",
+                  }}
+                  alt="Remy Sharp"
+                  src={result.avatar}
+                ></Avatar>
+                <h3>{result.userName}</h3>
+                {/* Render other details of the search result */}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </Container>
   );
-}
+};
+
+export default SearchPage;

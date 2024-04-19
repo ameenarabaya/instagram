@@ -2,25 +2,28 @@ import { Avatar, Box } from "@mui/material";
 import React, { useEffect } from "react";
 export default function StoryCircle({ name, images }) {
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         alignItems: "center",
+        width: "90px",
+        marginTop: "10px",
       }}
     >
-      <Avatar
-        className="avatar"
-        sx={{
-          width: 70,
-          height: 70,
-          border: "2px solid white",
-        }}
-        alt="Remy Sharp"
-        src={images}
-      ></Avatar>
-      {name ? <span>{name}</span> : <></>}
-    </Box>
+      <div className="storyBorder">
+        <Avatar
+          className="avatar"
+          sx={{
+            width: 60,
+            height: 60,
+            border: "3px solid #E4E4E4",
+          }}
+          alt="Remy Sharp"
+          src={images}
+        ></Avatar>
+      </div>
+      {name ? <div style={{ color: "white" }}>{name}</div> : <></>}
+    </div>
   );
 }

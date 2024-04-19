@@ -24,16 +24,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import img from "../assets/assets/profile.jpg";
 import BasicModal from "./Pages/Home/CreatePost";
-import { PostContext } from "./context";
+import axios from "axios";
 export default function IconsSide() {
   let [open, setOpen] = useState(false);
-  let { myUser } = useContext(PostContext);
+  let [user, setUser] = useState();
+  let [loading, setLoading] = useState(true);
+  let myid = localStorage.getItem("id");
+  async function fetchData() {
+    await axios
+      .get("https://instagram-cloneapi.onrender.com/users")
+      .then((response) => {
+        setUser(response.data.users.filter((e) => e._id == myid)[0]);
+        setLoading(false);
+      })
+      .catch((error) => console.log("error"));
+  }
   const handleClick = () => {
     setOpen(true);
   };
   const closing = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    fetchData();
+  });
+
   return (
     <List
       className="List"
@@ -67,14 +82,14 @@ export default function IconsSide() {
         </ListSubheader>
       }
     >
-      <Link to="/user" style={{ textDecoration: "none", color: "white" }}>
+      <Link to="/" style={{ textDecoration: "none", color: "white" }}>
         <ListItemButton>
           <ListItemIcon>{<HomeIcon style={{ color: "white" }} />}</ListItemIcon>
           <ListItemText sx={{ marginLeft: -2 }} primary="Home" />
         </ListItemButton>
       </Link>
       <Link
-        to={"/user/messagePage"}
+        to={"messagePage"}
         style={{ textDecoration: "none", color: "white" }}
       >
         <ListItemButton>
@@ -89,10 +104,7 @@ export default function IconsSide() {
           <ListItemText sx={{ marginLeft: -2 }} primary="Messages" />
         </ListItemButton>
       </Link>
-      <Link
-        to={"/user/explore"}
-        style={{ textDecoration: "none", color: "white" }}
-      >
+      <Link to={"explore"} style={{ textDecoration: "none", color: "white" }}>
         <ListItemButton>
           <ListItemIcon>
             {<ExploreIcon style={{ color: "white" }} />}
@@ -100,10 +112,7 @@ export default function IconsSide() {
           <ListItemText sx={{ marginLeft: -2 }} primary="Explore" />
         </ListItemButton>
       </Link>
-      <Link
-        to={"/user/search"}
-        style={{ textDecoration: "none", color: "white" }}
-      >
+      <Link to={"search"} style={{ textDecoration: "none", color: "white" }}>
         <ListItemButton>
           <ListItemIcon>
             {<SearchIcon style={{ color: "white" }} />}
@@ -132,10 +141,10 @@ export default function IconsSide() {
         </ListItemIcon>
         <ListItemText sx={{ marginLeft: -2 }} primary="Notifications" />
       </ListItemButton>
-      <Link to={"/user/profile"} style={{ textDecoration: "none" }}>
+      <Link to={"profile"} style={{ textDecoration: "none" }}>
         <ListItemButton>
           <Avatar
-            src={myUser.avatar}
+            src={loading ? "" : user.avatar}
             sx={{ width: "30px", height: "30px" }}
           ></Avatar>
           <ListItemText
@@ -144,7 +153,7 @@ export default function IconsSide() {
               textDecoration: "none",
               color: "white",
             }}
-            primary={`${myUser.userName}`}
+            primary={loading ? "" : user.userName}
           />
         </ListItemButton>
       </Link>

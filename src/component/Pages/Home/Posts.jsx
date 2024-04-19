@@ -2,48 +2,55 @@ import React, { useContext, useEffect, useState } from "react";
 import BasicModal from "./CreatePost";
 import axios from "axios";
 import Post from "./Post";
+import postCss from "./posts.module.css";
 import { PostContext } from "../../context";
 export default function Posts() {
   let { posts, setposts } = useContext(PostContext);
+  let [Posts, setPosts] = useState([]);
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
-  useEffect(() => {
-    axios
-      .get("http://16.170.173.197/posts", {
+  let [loading, setLoading] = useState(true);
+  async function getPosts() {
+    await axios
+      .get("https://instagram-cloneapi.onrender.com/posts", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          token: token,
         },
       })
       .then((response) => {
         setposts(response.data.posts);
-        // console.log(posts);
+        setPosts(response.data.posts);
+        setLoading(false);
       })
       .catch((error) => {
         console.log("Error Fedching memories", error);
       });
-  }, [posts]);
+  }
+  useEffect(() => {
+    getPosts();
+  }, [Posts]);
   return (
     <>
-      {posts ? (
-        posts
-          .slice(0)
+      {loading ? (
+        <span class={postCss.loader}></span>
+      ) : (
+        Posts
+          .slice()
           .reverse()
-          .map((post, index) => {
+          .map((post) => {
             return (
               <Post
-                key={post.id}
-                title={post.user.userName ? post.user.userName : "unKnown"}
+                key={post._id}
+                title={post.user.userName}
                 body={post.description}
                 url={post.image}
-                id={post.id}
+                id={post._id}
                 likes={post.likes}
                 createdAt={post.createdAt}
                 avatar={post.user.avatar}
               />
             );
           })
-      ) : (
-        <></>
       )}
     </>
   );

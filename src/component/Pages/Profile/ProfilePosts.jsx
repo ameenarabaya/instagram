@@ -11,14 +11,10 @@ export default function ProfilePosts() {
   let [MyAccount, setMyAccount] = useState(null);
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("id");
- 
+
   useEffect(() => {
     axios
-      .get(`http://16.170.173.197/posts/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`https://instagram-cloneapi.onrender.com/posts/${id}`)
       .then((response) => {
         setMyAccount(response.data.posts);
       })
@@ -39,9 +35,9 @@ export default function ProfilePosts() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://16.170.173.197/posts/${id}`, {
+          .delete(`https://instagram-cloneapi.onrender.com/posts/${id}`, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              token: token,
             },
           })
           .catch((error) => {
@@ -60,11 +56,11 @@ export default function ProfilePosts() {
     });
     if (Data) {
       await axios.put(
-        `http://16.170.173.197/posts/${id}`,
+        `https://instagram-cloneapi.onrender.com/posts/${id}`,
         { description: Data },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            token: token,
           },
         }
       );
@@ -83,13 +79,13 @@ export default function ProfilePosts() {
                 >
                   <div className="Layout">
                     <FontAwesomeIcon
-                      style={{ fontSize: "25px" }}
+                      style={{ fontSize: "25px", cursor: "pointer" }}
                       icon={faPenToSquare}
-                      onClick={() => handleEdit(post.id)}
+                      onClick={() => handleEdit(post._id)}
                     />
                     <DeleteIcon
                       sx={{ cursor: "pointer", fontSize: "30px" }}
-                      onClick={() => handledelete(post.id)}
+                      onClick={() => handledelete(post._id)}
                     />
                   </div>
                   <img

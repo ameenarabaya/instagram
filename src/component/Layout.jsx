@@ -18,13 +18,9 @@ export default function Layout() {
   let myid = localStorage.getItem("id");
   useEffect(() => {
     axios
-      .get("http://16.170.173.197/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("https://instagram-cloneapi.onrender.com/users")
       .then((response) => {
-        setMyUser(response.data.users.filter((e) => e.id == myid)[0]);
+        setMyUser(response.data.users.filter((e) => e._id == myid)[0]);
       })
       .catch((error) => console.log(error));
   }, []);

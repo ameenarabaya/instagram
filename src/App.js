@@ -16,6 +16,7 @@ import { PostContext } from './component/context';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Search from './component/Pages/search/Search';
+import UserProfile from './component/Pages/Userprofile/UserProfile.jsx';
 function App() {
   let [posts,setposts] = useState([]);
   let [myUser,setMyUser] = useState([])
@@ -23,14 +24,17 @@ function App() {
   let routes = createBrowserRouter([
     {path:'/',element:<OutLayout/> ,children:[
       {index:true ,element:<ProtectedAuth><Login/></ProtectedAuth>},
-      {path:'/signup' , element:<ProtectedAuth><SignUp/></ProtectedAuth>},
+      {path:'signup' , element:<ProtectedAuth><SignUp/></ProtectedAuth>},
        ]},
-      {path:'/user' , element:<Protected><Layout/></Protected>,children:[
+      {path:'user' , element:<Protected><Layout/></Protected>,children:[
       {index:true , element:<Home/>},
-      {path:'/user/explore', element:<Explore/>},
-      {path:'/user/messagePage' , element:<MessagePage/>},
-      {path:'/user/profile' , element:<Profile/>},
-      {path:'/user/search' ,element:<Search/>}
+      {path:'explore', element:<Explore/>},
+      {path:'messagePage' , element:<MessagePage/>},
+      {path:'profile' , element:<Profile/>},
+      {path:'search', children:[
+        {index:true ,element:<Search/>},
+        {path:'user/:UserId' , element:<UserProfile/>}
+      ]}
 
     ]},
     {path:"*" , element:<PageNotFound/>}

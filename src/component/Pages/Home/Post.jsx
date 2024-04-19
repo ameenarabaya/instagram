@@ -37,22 +37,25 @@ export default function Post({
   let { posts, setposts } = useContext(PostContext);
   const handleLikes = async (id, e) => {
     await axios
-      .post(`http://16.170.173.197/posts/like/${id}`, null, {
+      .post(`https://instagram-api-0xvb.onrender.com/posts/like/${id}`, null, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          token: token,
         },
       })
       .then(
         async () =>
-          await axios.get("http://16.170.173.197/posts", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
+          await axios.get(
+            `https://instagram-api-0xvb.onrender.com/posts/like/${id}`,
+            {
+              headers: {
+                token: token,
+              },
+            }
+          )
       )
       .then((response) => {
-        setposts(response.data.posts);
-        LikesUser();
+        setposts(response.data);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   };
@@ -60,12 +63,12 @@ export default function Post({
     if (likes.length) {
       LikesUser();
     }
-  }, []);
+  }, [likes]);
   async function LikesUser() {
     await axios
-      .get(`http://16.170.173.197/posts/likes/${id}`, {
+      .get(`https://instagram-cloneapi.onrender.com/posts/like/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          token: token,
         },
       })
       .then((response) => {
@@ -91,6 +94,8 @@ export default function Post({
       Math.trunc(diffInMilliseconds / 60000) <= 60
     ) {
       return `${Math.trunc(diffInMilliseconds / 60000)}m`;
+    } else if (hours <= 24 && hours >= 1) {
+      return `${Math.trunc(hours)}h`;
     } else if (hours > 24) {
       return `${Math.trunc(diffInMilliseconds / 86400000)}d`;
     }
@@ -103,7 +108,7 @@ export default function Post({
           <Avatar
             sx={{ width: 50, height: 50, border: "2px solid white" }}
             alt="Remy Sharp"
-            src={image1}
+            src={avatar}
           />
         }
         action={
@@ -162,7 +167,7 @@ export default function Post({
                       fontSize: "12px",
                       width: "100%",
                     }}
-                    key={userLike.id}
+                    key={userLike._id}
                   >
                     {userLike.userName},
                   </span>
@@ -175,6 +180,16 @@ export default function Post({
           <div style={{ fontWeight: "bold" }}>{title}</div>
           {body}
         </Typography>
+        <input
+          placeholder="add a comment"
+          style={{
+            width: "100%",
+            backgroundColor: "black",
+            color: "white",
+            border: "none",
+            marginTop: "2px",
+          }}
+        />
       </CardContent>
     </Card>
   );

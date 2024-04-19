@@ -32,12 +32,12 @@ export default function Login() {
   async function handlesubmit(e) {
     e.preventDefault();
     await axios
-      .post("http://16.170.173.197/users/login", user)
+      .post("https://instagram-cloneapi.onrender.com/users/login", user)
       .then((response) => {
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token);
+        if (response.data.user.token) {
+          localStorage.setItem("token", response.data.user.token);
           setMyUser(response.data.user);
-          localStorage.setItem("id", response.data.user.id);
+          localStorage.setItem("id", response.data.user._id);
           nav("/user");
         }
       })
@@ -65,6 +65,7 @@ export default function Login() {
               marginTop: "17px",
               padding: "3px",
               border: "2px solid white",
+              outline: "none",
             }}
             placeholder="Mobile Number or Email"
             value={user.email}
@@ -78,6 +79,7 @@ export default function Login() {
               height: "25px",
               padding: "3px",
               border: "2px solid white",
+              outline: "none",
             }}
             placeholder="Password"
             value={user.password}

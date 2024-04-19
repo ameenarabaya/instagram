@@ -1,0 +1,66 @@
+.userDiv{
+display: flex;
+width: 60%;
+color: black;
+background-color: white;
+gap:5px;
+padding: 5px;
+border-radius: 6px;
+align-items: center;
+height: 40px;
+cursor: pointer;
+margin-top: 20px;
+text-decoration: none;
+}
+.userDiv:hover{
+    background-color:#f2f2f2;
+    transform: translateY(-10px);
+   
+}
+input.inputClass{
+    width: 60%;
+    height: 27px;
+    margin-top: 50px;
+    outline: none;
+    border-radius: 10px;
+    border-color: white;
+    padding: 5px;
+    font-size: 15px;
+}
+.userDiv:nth-child(1){
+    margin-top: 50px;
+}
+.searchLoader {
+    position: relative;
+    width: 100px;
+    height: 16px;
+    margin-top: 50px;
+  }
+  .searchLoader:before , .searchLoader:after{
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 32px 0 #fff;
+    left: 0;
+    top: 0;
+    animation: ballMoveX 1s linear infinite;
+  }
+  .searchLoader:after {
+    box-shadow: none;
+    transform-origin: 40px 0;
+    transform: rotate(-153deg);
+    animation: rotateLoader 1s linear infinite;
+  }
+
+  @keyframes rotateLoader {
+    0% , 10%{ transform: rotate(-153deg); }
+    90%, 100% { transform: rotate(0deg); }
+  }
+  @keyframes ballMoveX {
+    0% , 10%{  transform: translateX(0) }
+    90%, 100% { transform: translateX(32px) }
+  }
+      

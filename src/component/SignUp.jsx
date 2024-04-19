@@ -29,7 +29,11 @@ export default function SignUp() {
   let nav = useNavigate();
   async function handlesubmit(e) {
     e.preventDefault();
-    let { data } = await axios.post("http://16.170.173.197/users/signup", user);
+    let { data } = await axios.post(
+      "https://instagram-cloneapi.onrender.com/users/signup",
+      user
+    );
+    console.log(data);
     if (data.token) {
       nav("/");
     }
@@ -78,6 +82,7 @@ export default function SignUp() {
               marginBottom: "15px",
               padding: "3px",
               border: "2px solid white",
+              outline: "none",
             }}
             placeholder="Username"
             value={user.userName}
@@ -91,6 +96,7 @@ export default function SignUp() {
               height: "25px",
               padding: "3px",
               border: "2px solid white",
+              outline: "none",
             }}
             placeholder="Email"
             value={user.email}
@@ -104,6 +110,7 @@ export default function SignUp() {
               height: "25px",
               padding: "3px",
               border: "2px solid white",
+              outline: "none",
             }}
             placeholder="Password"
             value={user.password}
